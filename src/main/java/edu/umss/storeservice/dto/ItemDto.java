@@ -15,6 +15,7 @@ public class ItemDto extends DtoBase<Item> {
     private String image;
     private String category;
     private Long subCategoryId;
+    private String subCategoryName;
     private String price;
     private Object[] comments = new Object[0];
     private Long id;
@@ -128,4 +129,11 @@ public class ItemDto extends DtoBase<Item> {
         return this;
     }
 
+    public String getSubCategoryName() {
+        return subCategoryName;
+    }
+
+    public void setSubCategoryName(String subCategoryName) {
+        this.subCategoryName = subCategoryName;
+    }
 }
