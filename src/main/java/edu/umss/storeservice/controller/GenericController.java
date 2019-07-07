@@ -168,10 +168,10 @@ public abstract class GenericController<E extends ModelBase, D extends DtoBase<E
     }
 
     public ResponseEntity uploadImage(@RequestParam("file") MultipartFile[] uploadingFiles,
-            @PathVariable("id") Long id) throws IOException {
+                                      @PathVariable("id") Long id) throws IOException {
         for (MultipartFile uploadedFile : uploadingFiles) {
-            uploadedFile.getOriginalFilename();
-            getService().saveImage(id, uploadedFile.getInputStream());
+            String name = uploadedFile.getOriginalFilename();
+            getService().saveImage(id, uploadedFile.getInputStream(), name);
         }
         return ResponseEntity.ok("Image uploaded successfully");
     }

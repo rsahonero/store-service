@@ -147,11 +147,11 @@ public abstract class GenericServiceImpl<T extends ModelBase> implements Generic
     }
 
     @Override
-    public void saveImage(Long id, InputStream file) {
+    public void saveImage(Long id, InputStream file, String name) {
         T model = findById(id);
         try {
             Byte[] bytes = ImageUtils.inputStreamToByteArray(file);
-            setImage(model, bytes);
+            setImage(model, bytes, name);
             getRepository().save(model);
         } catch (IOException e) {
             logger.error("Error reading file", e);
@@ -161,6 +161,6 @@ public abstract class GenericServiceImpl<T extends ModelBase> implements Generic
     protected abstract GenericRepository<T> getRepository();
 
     // set the bytes in the appropriate property in the model object
-    protected void setImage(T model, Byte[] bytes) {
+    protected void setImage(T model, Byte[] bytes, String name) {
     }
 }

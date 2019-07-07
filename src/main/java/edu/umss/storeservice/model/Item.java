@@ -5,11 +5,11 @@
 package edu.umss.storeservice.model;
 
 import edu.umss.storeservice.dto.ItemDto;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,8 +28,10 @@ public class Item extends ModelBase<ItemDto> {
     private Set<FeatureInstance> featureInstances;
 
     //todo mover a otra entidad para soportar muchas imagenes
-    @Lob
-    private Byte[] image;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_id")
+    @OrderBy(value = "name")
+    private List<ItemImage> itemImageList;
 
     @OneToOne(targetEntity = SubCategory.class)
     private SubCategory subCategory;
@@ -48,14 +50,6 @@ public class Item extends ModelBase<ItemDto> {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public Byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(Byte[] image) {
-        this.image = image;
     }
 
     public SubCategory getSubCategory() {
@@ -112,5 +106,13 @@ public class Item extends ModelBase<ItemDto> {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<ItemImage> getItemImageList() {
+        return itemImageList;
+    }
+
+    public void setItemImageList(List<ItemImage> itemImageList) {
+        this.itemImageList = itemImageList;
     }
 }

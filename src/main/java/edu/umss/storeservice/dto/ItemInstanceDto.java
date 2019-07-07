@@ -8,12 +8,14 @@ package edu.umss.storeservice.dto;
 import edu.umss.storeservice.model.ItemInstance;
 import org.modelmapper.ModelMapper;
 
+import java.util.List;
+
 public class ItemInstanceDto extends DtoBase<ItemInstance> {
 
     private String name;
     private String code;
     private String label;
-    private String image;
+    private List<ItemImageDto> imageList;
     private String category;
     private Long subCategoryId;
     private String price;
@@ -49,12 +51,12 @@ public class ItemInstanceDto extends DtoBase<ItemInstance> {
         this.label = label;
     }
 
-    public String getImage() {
-        return image;
+    public List<ItemImageDto> getImageList() {
+        return imageList;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageList(List<ItemImageDto> imageList) {
+        this.imageList = imageList;
     }
 
     public String getCategory() {
@@ -145,7 +147,7 @@ public class ItemInstanceDto extends DtoBase<ItemInstance> {
         mapper.map(itemInstance.getItem(), this);
         // copy item to itemdto
         setItemDto(new ItemDto().toDto(itemInstance.getItem(), mapper));
-        setImage(getItemDto().getImage());
+        setImageList(getItemDto().getImageList());
 
         // copy item instance state to item instance state dto
         setItemInstanceStateDto(new ItemInstanceStateDto().toDto(itemInstance.getItemInstanceState(), mapper));

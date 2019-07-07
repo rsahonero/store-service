@@ -1,18 +1,23 @@
+
 /**
  * (C) 2017 Agilysys NV, LLC.  All Rights Reserved.  Confidential Information of Agilysys NV, LLC.
  */
 package edu.umss.storeservice.dto;
 
 import edu.umss.storeservice.model.Item;
+import edu.umss.storeservice.model.ItemImage;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.modelmapper.ModelMapper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemDto extends DtoBase<Item> {
 
     private String name;
     private String code;
     private String label;
-    private String image;
+    private List<ItemImageDto> imageList;
     private String category;
     private Long subCategoryId;
     private String price;
@@ -29,12 +34,12 @@ public class ItemDto extends DtoBase<Item> {
         this.name = name;
     }
 
-    public String getImage() {
-        return image;
+    public List<ItemImageDto> getImageList() {
+        return imageList;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageList(List<ItemImageDto> imageList) {
+        this.imageList = imageList;
     }
 
     public String getCategory() {
@@ -114,13 +119,17 @@ public class ItemDto extends DtoBase<Item> {
         super.toDto(item, mapper);
         setCategory(item.getSubCategory().getCategory().getName());
         setLabel(item.getName());
-        if (item.getImage() != null) {
-            byte[] bytes = new byte[item.getImage().length];
-            for (int i = 0; i < item.getImage().length; i++) {
-                bytes[i] = item.getImage()[i];
+        if (item.getItemImageList() != null) {
+            imageList = new ArrayList<>();
+            for (ItemImage itemImage : item.getItemImageList()) {
+                byte[] bytes = new byte[itemImage.getImage().length];
+                for (int i = 0; i < itemImage.getImage().length; i++) {
+                    bytes[i] = itemImage.getImage()[i];
+                }
+                String imageStr = Base64.encodeBase64String(bytes);
+                ItemImageDto itemImageDto = new ItemImageDto(itemImage.getId(), imageStr);
+                imageList.add(itemImageDto);
             }
-            String imageStr = Base64.encodeBase64String(bytes);
-            setImage(imageStr);
         }
         setPrice("5");
         return this;

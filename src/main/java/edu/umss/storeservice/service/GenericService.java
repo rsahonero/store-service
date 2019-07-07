@@ -35,5 +35,5 @@ public interface GenericService<T extends ModelBase> {
 
     List<T> findAll(String filter);
 
-    void saveImage(Long id, InputStream file);
+    void saveImage(Long id, InputStream file,String name);
 }
